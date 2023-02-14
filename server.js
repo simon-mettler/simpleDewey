@@ -1,38 +1,37 @@
 import express from 'express';
 
-import { join, dirname } from 'node:path';
 import path from 'path';
-import { fileURLToPath } from 'node:url';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-import { Low } from 'lowdb';
-import { JSONFile } from 'lowdb/node';
+// Database connection
+import db from './db.js';
 
-
-import { overview, overview2 } from './controllers/overview.js';
-
+// Routes 
+//import item_add from './route/item.js';
+import { itemRoute } from './routes/routes_item.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const file = join(__dirname, 'db.json')
+const port = 3000
 
-const adapter = new JSONFile(file)
-const db = new Low(adapter)
 
-await db.read()
-db.data ||= { settings: [], index: []}  
-
-await db.write()
-
+// Express setup
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
-const port = 3000
 
+
+// Set default data if database is empty.
+db.data ||= { settings: [], index: {}};
+await db.write();
+
+// Routes
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { name: "simon" });
 })
+app.use('/add', itemRoute);
 
-app.use('/overview', overview);
-app.use('/overview2', overview2);
 
+// Start server
 app.listen(port, console.log(`Server listening on port ${port}`))
