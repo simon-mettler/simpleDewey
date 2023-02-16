@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import bodyParser from 'body-parser';
 
 // Database connection
 import db from './db.js';
@@ -17,6 +18,14 @@ const port = 3000
 
 // Express setup
 const app = express();
+
+app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+)
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
