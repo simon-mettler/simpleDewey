@@ -8,6 +8,13 @@ import bodyParser from 'body-parser';
 // Database connection
 import db from './db.js';
 
+// Set default data if database is empty.
+db.read();
+db.data ||= { settings: [], index: []};
+db.write();
+console.log('server.js')
+console.log(db.data)
+
 // Routes 
 //import item_add from './route/item.js';
 import { itemRoute } from './routes/routes_item.js';
@@ -31,9 +38,6 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// Set default data if database is empty.
-db.data ||= { settings: [], index: {}};
-await db.write();
 
 // Routes
 app.get('/', (req, res) => {
