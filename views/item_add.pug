@@ -18,3 +18,13 @@ html(lang="en")
       label(for="desc") Description:
         input(type="text" name="desc")
       input(type="submit" value="Add")
+
+
+  body
+    ul
+      each val in index 
+        li= val.name
+        if val.children.length > 0 
+          ul 
+            each child in val.children 
+              li= child.name

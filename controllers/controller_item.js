@@ -1,15 +1,13 @@
-import db from '../db.js';
-
-import { Item, addItem }from '../services/service_item.js';
+import { ItemService } from '../services/ItemService.js';
 
 //const item = new Item('00', 'Root', 'desc', []);
 
-const item_add = (req, res) => {
+const controller_item_add = (req, res) => {
   if(req.method === 'POST') {
-    addItem(req.body);
+    ItemService.add(req.body);
   }
   res.render('item_add');
 }
 
 
-export default item_add;
+export { controller_item_add };

@@ -9,7 +9,7 @@ import lodash from 'lodash';
 
 // Extend Low class with a new 'chain' field.
 class LowWithLodash extends LowSync {
-  lodash = lodash.chain(this).get('data')
+  chain = lodash.chain(this).get('data');
 }
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

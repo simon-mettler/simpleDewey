@@ -12,12 +12,10 @@ import db from './db.js';
 db.read();
 db.data ||= { settings: [], index: []};
 db.write();
-console.log('server.js')
-console.log(db.data)
 
 // Routes 
-//import item_add from './route/item.js';
-import { itemRoute } from './routes/routes_item.js';
+import { itemRoutes } from './routes/routes_item.js';
+import { indexRoutes } from './routes/routes_index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = 3000
@@ -40,10 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Routes
-app.get('/', (req, res) => {
-  res.render('index', { name: "simon" });
-})
-app.use('/add', itemRoute);
+app.use('/', indexRoutes);
+app.use('/add', itemRoutes);
 
 
 // Start server
