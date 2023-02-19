@@ -1,0 +1,30 @@
+
+    mixin parseIndex(obj)
+      ul.list-group
+        each val in obj 
+          li.list-group-item= val.name
+            i.bi.bi-archive-fill
+          if val.children.length > 0
+            +parseIndex(val.children)
+            
+            
+    mixin parseIndex(obj)
+      div.accordion(
+        id="acc"
+      )
+        each val in obj 
+          div.accordion-item
+            h2.accordion-header
+              button.accordion-button.collapsed(
+                type="button"
+                data-bs-toggle="collapse" 
+                data-bs-target="#collapse" + val.name
+                aria-controls="#collapse" + val.name
+                aria-expanded="false"
+                )= val.name
+              div.accordion-collapse.collapse(
+                id="collapse" + val.name
+              )
+                div.accordion-body
+                  if val.children.length > 0
+                    +parseIndex(val.children)

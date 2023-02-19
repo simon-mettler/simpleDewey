@@ -4,20 +4,27 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="./css/bootstrap.min.css")
+    link(rel="stylesheet", href="./css/bootstrap-icons.css")
+    script(src="./js/bootstrap.min.js") 
     title simpleDewey 
+
+  body 
 
     mixin parseIndex(obj)
       ul
         each val in obj 
-          li= val.name
+          li.list-group-item 
+            i.bi.bi-archive-fill
+            =val.name
+            a(href="/add?parent=" + val.uuid)= "Add Item"
           if val.children.length > 0
             +parseIndex(val.children)
-    
-    //mixin parseItems(item)
-      ul
-        each val in item 
-          li= val.name
-          if val.children.length > 0
-            +paresIndex(val.children)
 
-  +parseIndex(index)
+    +parseIndex(index)
+
+    button.btn.btn-primary(
+       data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
+    ) Button 
+    div.collapse#collapseExample
+      div.card.card-body Some text

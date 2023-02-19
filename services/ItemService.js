@@ -10,13 +10,13 @@ function Item(id, name, desc, children) {
 
 export const ItemService = {
 
-  add: function () {
+  add: function(item) {
 
     // Get parent and remove from item.
     const parent = item.parent;
     delete item.parent;
 
-    // Set uuid and empty children key.
+    // Set uuid and empty children array.
     item.uuid = uuid();
     item.children = [];
 
@@ -25,6 +25,21 @@ export const ItemService = {
     if (parent === 'root') {
       db.data.index.push(item);
     }
+    
+    const addItem = (index, parent) => {
+      for (const i in index) {
+        if (index[i].uuid === parent) {
+          index[i].children.push(item);
+          console.log(index);
+          break;
+        }
+        if(index[i].children.length > 0) {
+          addItem(index[i].children, parent)
+        }
+      }
+    }
+
+    addItem(db.data.index, parent);
 
     db.write();
   },
