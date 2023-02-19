@@ -9,11 +9,11 @@
             
             
     mixin parseIndex(obj)
-      div.accordion(
+      .accordion(
         id="acc"
       )
         each val in obj 
-          div.accordion-item
+          .accordion-item
             h2.accordion-header
               button.accordion-button.collapsed(
                 type="button"
@@ -22,9 +22,9 @@
                 aria-controls="#collapse" + val.name
                 aria-expanded="false"
                 )= val.name
-              div.accordion-collapse.collapse(
+              .accordion-collapse.collapse(
                 id="collapse" + val.name
               )
-                div.accordion-body
+                .accordion-body
                   if val.children.length > 0
                     +parseIndex(val.children)

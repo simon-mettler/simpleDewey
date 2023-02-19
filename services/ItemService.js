@@ -22,15 +22,15 @@ export const ItemService = {
 
     db.read();
 
+    let index = db.data.index;
     if (parent === 'root') {
-      db.data.index.push(item);
+      index.push(item);
     }
     
     const addItem = (index, parent) => {
       for (const i in index) {
         if (index[i].uuid === parent) {
           index[i].children.push(item);
-          console.log(index);
           break;
         }
         if(index[i].children.length > 0) {
@@ -39,9 +39,33 @@ export const ItemService = {
       }
     }
 
-    addItem(db.data.index, parent);
+    addItem(index, parent);
+
+    function setPath(path) {
+      path = path || '';
+      return function (item) {
+          if(path === '') {
+            item.path = path + item.id;
+          } else {
+            item.path = path + '.' + item.id;
+          }
+          if (item.children) {
+              item.children.forEach(setPath(item.path));
+          }
+      }
+    }
+
+    index.forEach(setPath());
+
+
+
 
     db.write();
+    
+
+
+
+
   },
 
   get: function () {

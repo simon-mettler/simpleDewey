@@ -1,20 +1,21 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title simpleDewey 
-  body
-    h1="Add Item"
+include inc/head.pug
+
+body
+  include inc/nav.pug
+  .container.mt-5
+    h1.mb-5="Add Item"
 
     form(method="post" action="/add")
-      label(for="parent") Parent:
-        input(type="text" name="parent" value=(parent || ""))
-      label(for="id") Id:
-        input(type="text" name="id")
-      label(for="name") Name:
-        input(type="text" name="name")
-      label(for="desc") Description:
-        input(type="text" name="desc")
+      .mb-3
+        label.form-label(for="parent") Parent:
+        input.form-control(type="text" name="parent" value=(parent || ""))
+      .mb-3
+        label.form-label(for="id") Id:
+        input.form-control(type="text" name="id")
+      .mb-3
+        label.form-label(for="name") Name:
+        input.form-control(type="text" name="name")
+      .mb-3
+        label.form-label(for="desc") Description:
+        input.form-control(type="text" name="desc")
       input(type="submit" value="Add")
