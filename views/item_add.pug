@@ -8,7 +8,12 @@ body
     form(method="post" action="/add")
       .mb-3
         label.form-label(for="parent") Parent:
-        input.form-control(type="text" name="parent" value=(parent || ""))
+        select.form-select(name="parent")
+          for val in htmlSelectList
+            option(
+              value=val.uuid 
+              selected=(val.uuid === parent)
+            )= val.path + ' ' + val.name
       .mb-3
         label.form-label(for="id") Id:
         input.form-control(type="text" name="id")

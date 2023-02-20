@@ -50,7 +50,7 @@ export const ItemService = {
             item.path = path + '.' + item.id;
           }
           if (item.children) {
-              item.children.forEach(setPath(item.path));
+            item.children.forEach(setPath(item.path));
           }
       }
     }
@@ -61,8 +61,6 @@ export const ItemService = {
 
 
     db.write();
-    
-
 
 
 

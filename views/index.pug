@@ -6,19 +6,16 @@ mixin parseIndex(obj)
     each val in obj 
       li.list-group-item 
         i.bi.bi-archive-fill
-        =val.name
-        a(href="/add?parent=" + val.uuid)= "Add Item"
+        = " " + val.path + " - " + val.name
+        a(href="/add?parent=" + val.uuid) Add Item
       if val.children.length > 0
         +parseIndex(val.children)
 
 
 body 
   include inc/nav.pug
-  .container
-    +parseIndex(index)
-
-    button.btn.btn-primary(
-        data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
-    ) Button 
-    .collapse#collapseExample
-      .card.card-body Some text
+  if index.length > 0
+    .container
+      +parseIndex(index)
+  else
+    a(href="/add?parent=root") Add Item
