@@ -31,6 +31,31 @@ export const IndexService = {
     getLists(index);
 
     return list;
+  },
+
+
+  generatePaths: () => {
+
+    db.read();
+    let index = db.data.index;
+
+    function genPath(path) {
+      path = path || '';
+      return function (item) {
+          if(path === '') {
+            item.path = path + item.id;
+          } else {
+            item.path = path + '.' + item.id;
+          }
+          if (item.children) {
+            item.children.forEach(genPath(item.path));
+          }
+      }
+    }
+    index.forEach(genPath());
+
+    db.write();
+
   }
 
 

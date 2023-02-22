@@ -7,9 +7,14 @@ mixin parseIndex(obj)
       li.list-group-item 
         i.bi.bi-archive-fill
         = " " + val.path + " - " + val.name
-        a(href="/add?parent=" + val.uuid) Add Item
+        a(href="/add?parent=" + val.uuid) Add Item 
+        | --  
+        a(href="/add?parent=" + val.uuid) Delete Item
       if val.children.length > 0
         +parseIndex(val.children)
+
+
+
 
 
 body 

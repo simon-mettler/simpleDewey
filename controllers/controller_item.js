@@ -7,12 +7,23 @@ const controller_item_add = (req, res) => {
   const htmlSelectList = IndexService.getList();
 
   if(req.method === 'POST') {
-    console.log(req.body);
-    ItemService.add(req.body);
+    let item = req.body;
+
+    // Get parent and remove from item.
+    const parent = item.parent;
+    delete item.parent;
+
+    // Add items and regenerate paths.
+    ItemService.add(item, parent);
+    IndexService.generatePaths();
+
     res.render('item_add', { htmlSelectList: htmlSelectList });
+
   } else {
+
     const parent = req.query.parent;
     res.render('item_add', { parent: parent, htmlSelectList: htmlSelectList });
+
   }
 }
 
