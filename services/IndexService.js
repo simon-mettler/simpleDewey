@@ -34,21 +34,24 @@ export const IndexService = {
   },
 
 
-  generatePaths: () => {
-
+  generateNotation: () => {
     db.read();
     let index = db.data.index;
 
-    function genPath(path) {
-      path = path || '';
+    function genPath(path = '', depth = 0) {
       return function (item) {
+        item.depth = depth;
           if(path === '') {
-            item.path = path + item.id;
+            item.path = item.id;
           } else {
-            item.path = path + '.' + item.id;
+            if(depth < 2) {
+              item.path = item.id;
+            } else {
+              item.path = path + '.' + item.id;
+            }
           }
           if (item.children) {
-            item.children.forEach(genPath(item.path));
+            item.children.forEach(genPath(item.path, depth+1));
           }
       }
     }

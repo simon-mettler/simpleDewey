@@ -15,7 +15,7 @@ const controller_item_add = (req, res) => {
 
     // Add items and regenerate paths.
     ItemService.add(item, parent);
-    IndexService.generatePaths();
+    IndexService.generateNotation();
 
     res.render('item_add', { htmlSelectList: htmlSelectList });
 
