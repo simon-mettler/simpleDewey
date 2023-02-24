@@ -14,8 +14,8 @@ db.data ||= { settings: [], index: []};
 db.write();
 
 // Routes 
-import { itemRoutes } from './routes/routes_item.js';
-import { indexRoutes } from './routes/routes_index.js';
+import { itemRoutes } from './routes/item.route.js';
+import { indexRoutes } from './routes/index.route.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = 3000
@@ -44,7 +44,7 @@ app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap-icon
 
 // Routes
 app.use('/', indexRoutes);
-app.use('/add', itemRoutes);
+app.use('/item', itemRoutes);
 
 
 // Start server

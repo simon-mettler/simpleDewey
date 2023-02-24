@@ -10,7 +10,7 @@ mixin parseIndex(obj)
         else
           i.bi.bi-archive-fill
         = " " + val.path + " - " + val.name
-        a(href="/add?parent=" + val.uuid) 
+        a(href="/item/add?parent=" + val.uuid) 
           i.bi.bi-plus-circle
         a(href="/edit?parent=" + val.uuid) 
           i.bi.bi-pencil-fill
@@ -44,10 +44,10 @@ mixin parseIndex(obj)
               button.btn.btn-secondary(
                 type="button"
                 data-bs-dismiss="modal"
-              ) Close
+              ) Cancel
               form(
                 method="post"
-                action="/delete"
+                action="/item/delete"
               )
                 input(
                   type="hidden"
@@ -70,4 +70,4 @@ body
     .container
       +parseIndex(index)
   else
-    a(href="/add?parent=root") Add Item
+    a(href="/item/add?parent=root") Add Item
