@@ -4,60 +4,43 @@ import _ from 'lodash';
 
 const getIndex = () => {
   db.read();
-  let index = db.data.index;
-  return index;
+  return db.data.index;
 }
   
 
 const getIndexList = () => {
-  db.read();
-  let index = db.data.index;
   let list = [];
 
-
-  const getLists = (index) => {
-    for (const i in index) {
-      list.push({
-        uuid: index[i].uuid,
-        path: index[i].path,
-        name: index[i].name
-      });
-      if(index[i].children.length > 0) {
-        getLists(index[i].children)
-      }
-    }
+  const getList = (item) => {
+    list.push({
+      uuid: item.uuid,
+      path: item.path,
+      name: item.name
+    });
+    item.children.forEach(getList);
   }
-  getLists(index);
-
+      
+  getIndex().forEach(getList);
   return list;
 }
 
 
-const generateNotation = () => {
-  db.read();
-  let index = db.data.index;
+const generateMeta = () => {
 
-  function genPath(path = '', depth = 0) {
-    return function (item) {
-      item.depth = depth;
-        if(path === '') {
-          item.path = item.id;
-        } else {
-          if(depth < 2) {
-            item.path = item.id;
-          } else {
-            item.path = path + '.' + item.id;
-          }
-        }
-        if (item.children) {
-          item.children.forEach(genPath(item.path, depth+1));
-        }
+  const meta = (depth, path) => (item) => {
+
+    if(path === '' || depth < 2) {
+      item.paht=item.id;
+    } else {
+      item.path = path + '.' + item.id;
     }
+
+    item.depth = depth;
+    item.children.forEach(meta(depth+1, item.path));
   }
-  index.forEach(genPath());
 
+  getIndex().forEach(meta(0, ''))
   db.write();
-
 }
 
-export { getIndex, getIndexList, generateNotation }
+export { getIndex, getIndexList, generateMeta}

@@ -1,5 +1,5 @@
 import { addItem } from '../services/item.service.js';
-import { getIndexList } from '../services/index.service.js';
+import { generateMeta, getIndexList } from '../services/index.service.js';
 
 
 const addItemController = (req, res) => {
@@ -13,9 +13,9 @@ const addItemController = (req, res) => {
     const parent = item.parent;
     delete item.parent;
 
-    // Add items and regenerate paths.
+    // Add items and regenerate index meta.
     addItem(item, parent);
-    generateNotation();
+    generateMeta();
 
     res.render('item_add', { htmlSelectList: htmlSelectList });
 

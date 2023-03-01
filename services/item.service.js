@@ -1,46 +1,43 @@
 import db from '../db.js';
+import { getIndex } from './index.service.js';
 import { v4 as uuid } from 'uuid';
 
-const addItem = (item, parent) => {
+const addItem = (newItem, parentUuid) => {
 
   // Set uuid and empty children array.
-  item.uuid = uuid();
-  item.children = [];
+  newItem.uuid = uuid();
+  newItem.children = [];
 
-  // Get index
-  db.read();
-  let index = db.data.index;
+  // Add item to index root if parent = root,
+  if (parentUuid === 'root') {
 
-  if (parent === 'root') {
-    index.push(item);
-  }
-  
-  const rec = (index, parent) => {
-    for (const i in index) {
-      if (index[i].uuid === parent) {
-        index[i].children.push(item);
-        break;
-      }
-      if(index[i].children.length > 0) {
-        rec(index[i].children, parent)
+    getIndex().push(item);
+
+  } else {
+
+    // Iterate over items until parent is found.
+    const addItemToIndex = (item) => {
+      if (item.uuid === parentUuid) {
+        item.children.push(newItem);
+        return true;
+      } else {
+        item.children.some(addItemToIndex);
       }
     }
-  }
+    getIndex().some(addItemToIndex);
 
-  rec(index, parent);
+  }
 
   db.write();
 
 }
 
 const deleteItem = (uuid) => {
-  const iterate = () => {
-
-  }
+  console.log('delete item');
 }
 
 const getItem = (uuid) => {
-    console.log('getitem');
-  }
+  console.log('get item');
+}
 
 export { addItem, deleteItem, getItem }
